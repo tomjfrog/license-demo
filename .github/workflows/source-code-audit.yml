@@ -26,7 +26,7 @@ jobs:
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
         with:
-          oidc-provider-name: 'github'
+          oidc-provider-name: 'github-oidc-integration'
           oidc-audience: 'jfrog-github'
 
       - name: Source Code Audit
