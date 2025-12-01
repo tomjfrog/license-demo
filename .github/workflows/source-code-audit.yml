@@ -50,4 +50,4 @@ jobs:
 
       - name: Source Code Audit With Scoped Watch
         run: |
-          jf audit --mvn --licenses --watch=license-demo-watch --project=$JF_PROJECT --fail=false
+          jf audit --mvn --licenses --watches=license-demo-watch --project=$JF_PROJECT --fail=false
