@@ -1,0 +1,11 @@
+version: 1
+type: gradle
+resolver:
+    repo: mavencentral-remote
+    serverId: tomjfrog
+deployer:
+    repo: licensedemo-maven-dev-local
+    serverId: tomjfrog
+    ivyPattern: '[organization]/[module]/ivy-[revision].xml'
+    artifactPattern: '[organization]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]'
+useWrapper: true
