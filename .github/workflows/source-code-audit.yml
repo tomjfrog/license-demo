@@ -1,0 +1,41 @@
+name: Source Code License Audit Example
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+
+env:
+  JF_URL: ${{ vars.JF_URL }}
+  JF_PROJECT: 'licensedemo'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v5.0.0
+        with:
+          distribution: 'corretto'
+
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+        with:
+          oidc-provider-name: 'github'
+          oidc-audience: 'jfrog-github'
+
+      - name: Source Code Audit
+        run: |
+          'jf audit --mvn --licenses'
+
+      - name: Source Code Audit in JSON Format
+        run: |
+          'jf audit --mvn --licenses --output=json --fail=false --project=$JF_PROJECT'
+
+      - name: Source Code Audit With Scoped Watch
+        run: |
+          'jf audit --mvn --licenses --watch=license-demo-watch --project=$JF_PROJECT --fail=false'
