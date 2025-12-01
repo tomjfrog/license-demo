@@ -7,7 +7,6 @@ permissions:
 
 env:
   JF_URL: ${{ vars.JF_URL }}
-  JF_PROJECT: 'licensedemo'
 
 
 jobs:
@@ -44,10 +43,10 @@ jobs:
         run: |
           jf audit --mvn --licenses
 
-      - name: Source Code Audit in JSON Format
-        run: |
-          jf audit --mvn --licenses --format=json --fail=false --project=$JF_PROJECT
-
       - name: Source Code Audit With Scoped Watch
         run: |
           jf audit --mvn --licenses --watches=license-demo-watch --fail=false
+
+      - name: Source Code Audit in JSON Format & Scoped to Project Watches
+        run: |
+          jf audit --mvn --licenses --format=json --fail=false --project=licensedemo
