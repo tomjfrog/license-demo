@@ -1,0 +1,33 @@
+name: Build and Deploy
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+
+env:
+  JF_URL: 'https://tomjfrog.jfrog.io'
+  JF_PROJECT: 'licensedemo'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v5.0.0
+        with:
+          distribution: 'corretto'
+
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+        with:
+          oidc-provider-name: 'github'
+          oidc-audience: 'jfrog-github'
+
+      - name: Build with Maven
+        run: |
+          'jf mvn clean install'
