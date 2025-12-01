@@ -46,7 +46,7 @@ jobs:
 
       - name: Source Code Audit in JSON Format
         run: |
-          jf audit --mvn --licenses --output=json --fail=false --project=$JF_PROJECT
+          jf audit --mvn --licenses --format=json --fail=false --project=$JF_PROJECT
 
       - name: Source Code Audit With Scoped Watch
         run: |
