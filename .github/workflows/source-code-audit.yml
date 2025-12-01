@@ -29,6 +29,17 @@ jobs:
           oidc-provider-name: 'github-oidc-integration'
           oidc-audience: 'jfrog-github'
 
+      - name: JF Maven Configure
+        run: |
+          jf mvn-config \
+          --server-id-resolve=setup-jfrog-cli-server \
+          --server-id-deploy=setup-jfrog-cli-server \
+          --repo-resolve-releases=mavencentral-remote \
+          --repo-resolve-snapshots=mavencentral-remote \
+          --repo-deploy-releases=mavencentral-remote \
+          --repo-deploy-snapshots=mavencentral-remote \
+          --use-wrapper=true
+
       - name: Source Code Audit
         run: |
           jf audit --mvn --licenses
