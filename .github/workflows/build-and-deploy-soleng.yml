@@ -43,4 +43,4 @@ jobs:
 
       - name: Build with Maven
         run: |
-          'jf mvn clean install -DskipTests'
+          jf mvn clean install -DskipTests
