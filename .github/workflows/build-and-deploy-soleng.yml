@@ -1,0 +1,45 @@
+name: Build and Deploy to Soleng
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+
+env:
+  JF_URL: 'https://tomjfrog.jfrog.io'
+  JF_PROJECT: 'licensedemo'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v5.0.0
+        with:
+          distribution: 'corretto'
+
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+        env:
+          JF_URL: 'https://soleng.jfrog.io'
+          # JFrog Platform access token
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+
+      - name: JF Maven Configure
+        run: |
+          jf mvn-config \
+          --server-id-resolve=setup-jfrog-cli-server \
+          --server-id-deploy=setup-jfrog-cli-server \
+          --repo-resolve-releases=tomj-mavencentral-remote \
+          --repo-resolve-snapshots=tomj-mavencentral-remote \
+          --repo-deploy-releases=tomj-petclinicmonolith-maven-dev-local \
+          --repo-deploy-snapshots=tomj-petclinicmonolith-maven-dev-local \
+          --use-wrapper=true    
+
+      - name: Build with Maven
+        run: |
+          'jf mvn clean install -DskipTests'
