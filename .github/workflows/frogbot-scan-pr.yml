@@ -1,15 +1,8 @@
-name: "Frogbot Security Scan"
+name: "Frogbot PR Scan"
 
 on:
-  pull_request_target:
-    types: [opened, synchronize] # Triggers scan-pr flow for every opened/updated pull request
-  push: # Triggers scan-repo flow for every push to the specified branches
-    branches:
-      - main
-  schedule:
-    - cron: "1/15 0 * * *"   # The repository will be scanned once a day at 00:00 GMT.
-  workflow_dispatch: # The repository will be scanned on demand
-
+    pull_request_target:
+        types: [opened, synchronize] # Triggers scan-pr flow for every opened/updated pull request
 permissions:
   pull-requests: write
   contents: write
@@ -37,4 +30,4 @@ jobs:
           JF_GIT_BASE_BRANCH: ${{ matrix.branch }}
 #          JF_USE_CONFIG_PROFILE: true
           JF_WATCHES: license-demo-watch
-# For repository scan action
+          JF_INCLUDE_ALL_VULNERABILITIES: false

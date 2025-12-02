@@ -1,0 +1,36 @@
+name: "Frogbot Repository Scan"
+
+on:
+  schedule:
+    - cron: "1/15 0 * * *"   # The repository will be scanned once a day at 00:00 GMT.
+  workflow_dispatch: # The repository will be scanned on demand
+
+permissions:
+  pull-requests: write
+  contents: write
+  security-events: write
+  id-token: write
+
+jobs:
+  frogbot-scan:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # The repository scanning will be triggered periodically on the following branches.
+        branch: ["main"]
+    steps:
+      - uses: jfrog/frogbot@v2
+        # [Mandatory if using OIDC authentication protocol instead of JF_ACCESS_TOKEN]
+        # Insert to oidc-provider-name the 'Provider Name' defined in the OIDC integration configured in the JPD
+        with:
+          oidc-provider-name: 'github-oidc-integration'
+          oidc-audience: 'jfrog-github'
+        env:
+          JF_URL: ${{ vars.JF_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JF_GIT_TOKEN: ${{ secrets.JF_GIT_TOKEN }}
+          JF_GIT_BASE_BRANCH: ${{ matrix.branch }}
+#          JF_USE_CONFIG_PROFILE: true
+          JF_WATCHES: license-demo-watch
+          JF_INCLUDE_ALL_VULNERABILITIES: true
+# For repository scan action
