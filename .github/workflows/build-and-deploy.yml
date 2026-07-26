@@ -6,7 +6,7 @@ permissions:
   id-token: write
 
 env:
-  JF_URL: 'https://tomjfrog.jfrog.io'
+  JF_URL: 'https://tomjpd.jfrog.io'
   JF_PROJECT: 'licensedemo'
 
 
@@ -27,8 +27,6 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v4
         with:
           oidc-provider-name: 'github'
-          oidc-audience: 'jfrog-github'
-
       - name: Build with Maven
         run: |
           'jf mvn clean install -DskipTests'
