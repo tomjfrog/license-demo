@@ -26,7 +26,6 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v4
         with:
           oidc-provider-name: 'github-oidc-integration'
-          oidc-audience: 'jfrog-github'
 
       - name: JF Maven Configure
         run: |
